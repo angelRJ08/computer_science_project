@@ -1,6 +1,13 @@
+controller.player1.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.Pressed, function () {
+    mySprite.setVelocity(100, 0)
+})
 function spawnenemyplayer () {
 	
 }
+controller.player1.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pressed, function () {
+    mySprite.setVelocity(-100, 0)
+})
+let mySprite: Sprite = null
 let enemysprite = 0
 let random_list_of_arrays = enemysprite
 info.setLife(3)
@@ -57,7 +64,7 @@ let list = [sprites.create(img`
     . . 7 . . 7 7 7 7 7 7 7 7 7 . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Enemy)]
-let mySprite = sprites.create(img`
+mySprite = sprites.create(img`
     . . . f f f f f f . . . . . . . 
     . . . f f 2 2 c c f f . . . . . 
     . . . . f f f c c c c f f f . . 
@@ -93,7 +100,5 @@ let mySprite2 = sprites.create(img`
     . . . f f 8 8 8 8 8 8 8 8 f f . 
     . . . . f f . . . . . . f f . . 
     `, SpriteKind.Player)
-controller.player1.moveSprite(mySprite)
-controller.player2.moveSprite(mySprite2)
 scene.cameraFollowSprite(mySprite)
 spawnenemyplayer()

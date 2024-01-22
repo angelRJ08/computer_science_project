@@ -1,18 +1,11 @@
 function spawnenemyplayer () {
-    spawnenemieslocation = tiles.getTilesByType(sprites.dungeon.collectibleInsignia)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-    for (let index = 0; index < 10; index++) {
-        enemysprite = sprites.create(list._pickRandom(), SpriteKind.Enemy)
-        tiles.placeOnTile(enemysprite, spawnenemieslocation.removeAt(randint(0, spawnenemieslocation.length - 1)))
-    }
+	
 }
-let spawnenemieslocation: tiles.Location[] = []
-let list: Sprite[] = []
-let enemysprite: Sprite = null
+let enemysprite = 0
 let random_list_of_arrays = enemysprite
-info.setScore(0)
+info.setLife(3)
 tiles.setCurrentTilemap(tilemap`level2`)
-list = [sprites.create(img`
+let list = [sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . 2 2 2 2 2 . 

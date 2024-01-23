@@ -54,6 +54,7 @@ function spawnenemy (num: number) {
     for (let index = 0; index < num; index++) {
         enemysprite = sprites.create(enemylist._pickRandom(), SpriteKind.Enemy)
         tiles.placeOnTile(enemysprite, spawnenemieslocation._pickRandom())
+        enemysprite.setVelocity(0, 20)
         pause(500)
     }
 }

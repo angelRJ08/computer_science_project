@@ -50,11 +50,12 @@ controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Press
         . . . . . . . . . . . . . . . . 
         `, player1, 0, -60)
 })
-function spawnenemy (num: number) {
+function spawnenemy (num: number, delay: number) {
     for (let index = 0; index < num; index++) {
         enemysprite = sprites.create(enemylist._pickRandom(), SpriteKind.Enemy)
         tiles.placeOnTile(enemysprite, spawnenemieslocation._pickRandom())
-        pause(500)
+        enemysprite.setVelocity(0, 20)
+        pause(delay)
     }
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -70,11 +71,9 @@ let enemylist: Image[] = []
 let spawnenemieslocation: tiles.Location[] = []
 let player1: Sprite = null
 let mySprite: Sprite = null
-info.setLife(3)
 tiles.setCurrentTilemap(tilemap`level2`)
 scene.cameraFollowSprite(player1)
 spawnenemieslocation = tiles.getTilesByType(assets.tile`myTile0`)
-info.setLife(3)
 enemylist = [img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
@@ -167,4 +166,4 @@ scene.cameraFollowSprite(player1)
 player1.setPosition(1, 112)
 player2.setPosition(159, 112)
 sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-spawnenemy(10)
+spawnenemy(10, 500)

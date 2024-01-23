@@ -4,12 +4,37 @@ controller.player1.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.P
 function spawnenemyplayer () {
 	
 }
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(mySprite)
+})
 controller.player1.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pressed, function () {
     mySprite.setVelocity(-100, 0)
 })
-let mySprite: Sprite = null
 let enemysprite = 0
+let mySprite: Sprite = null
 let random_list_of_arrays = enemysprite
+info.setLife(3)
+tiles.setCurrentTilemap(tilemap`level2`)
+mySprite = sprites.create(img`
+    . . . f f f f f f . . . . . . . 
+    . . . f f 2 2 c c f f . . . . . 
+    . . . . f f f c c c c f f f . . 
+    . . . . c c 2 4 4 4 2 2 2 2 c c 
+    . . . c 9 9 b 2 2 2 2 2 2 2 2 2 
+    . . c 9 9 9 1 1 1 b 2 2 2 2 2 2 
+    . c 2 b b 1 1 1 9 9 2 2 2 c c c 
+    c 2 2 2 2 2 2 2 2 2 2 2 c 2 2 2 
+    f 2 2 2 2 2 2 2 2 2 2 2 4 4 2 2 
+    . f 2 2 2 2 2 2 2 2 2 2 2 4 4 4 
+    . . f f 2 2 2 2 2 2 2 c f f c 4 
+    . . . . f f f f f f f c f f f f 
+    . . . . . . . . . f 2 c 2 f f f 
+    . . . . . . . . . f c c 2 f f f 
+    . . . . . . . . . . f f f f f f 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Player)
+scene.cameraFollowSprite(mySprite)
+spawnenemyplayer()
 info.setLife(3)
 tiles.setCurrentTilemap(tilemap`level2`)
 let list = [sprites.create(img`

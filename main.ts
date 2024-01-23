@@ -1,18 +1,40 @@
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    projectile = sprites.createProjectileFromSprite(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . 3 3 . . . . . . . 
+        . . . . . . 3 3 3 . . . . . . . 
+        . . . . . . 3 3 3 3 . . . . . . 
+        . . . . . . 3 3 3 . 3 . . . . . 
+        . . . . . . 3 3 3 3 3 . . . . . 
+        . . . . . . . 3 . . . . . . . . 
+        . . . . . . . 3 . . . . . . . . 
+        . . . . . . . 3 . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, player1, 0, -60)
+})
 controller.player1.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.Pressed, function () {
-    mySprite.setVelocity(100, 0)
+    player1.setVelocity(100, 0)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroy(mySprite)
+    sprites.destroy(player1)
 })
 controller.player1.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pressed, function () {
-    mySprite.setVelocity(-100, 0)
+    player1.setVelocity(-100, 0)
 })
+let projectile: Sprite = null
+let player1: Sprite = null
 let enemysprite = 0
 let mySprite: Sprite = null
 let random_list_of_arrays = enemysprite
 info.setLife(3)
 tiles.setCurrentTilemap(tilemap`level2`)
-mySprite = sprites.create(img`
+player1 = sprites.create(img`
     . . . f f f f f f . . . . . . . 
     . . . f f 2 2 c c f f . . . . . 
     . . . . f f f c c c c f f f . . 
@@ -30,7 +52,7 @@ mySprite = sprites.create(img`
     . . . . . . . . . . f f f f f f 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
-scene.cameraFollowSprite(mySprite)
+scene.cameraFollowSprite(player1)
 info.setLife(3)
 tiles.setCurrentTilemap(tilemap`level2`)
 let list = [sprites.create(img`
@@ -85,7 +107,7 @@ let list = [sprites.create(img`
     . . 7 . . 7 7 7 7 7 7 7 7 7 . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Enemy)]
-mySprite = sprites.create(img`
+player1 = sprites.create(img`
     . . . f f f f f f . . . . . . . 
     . . . f f 2 2 c c f f . . . . . 
     . . . . f f f c c c c f f f . . 
@@ -103,7 +125,7 @@ mySprite = sprites.create(img`
     . . . . . . . . . . f f f f f f 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
-let mySprite2 = sprites.create(img`
+let player2 = sprites.create(img`
     . . . . . . 8 8 c c 8 8 . . . . 
     . . . . . 8 6 6 6 6 6 6 8 . . . 
     . . . . 6 c 6 6 6 6 6 6 c 6 . . 
@@ -121,4 +143,6 @@ let mySprite2 = sprites.create(img`
     . . . f f 8 8 8 8 8 8 8 8 f f . 
     . . . . f f . . . . . . f f . . 
     `, SpriteKind.Player)
-scene.cameraFollowSprite(mySprite)
+scene.cameraFollowSprite(player1)
+player1.setPosition(14, 97)
+player2.setPosition(131, 92)

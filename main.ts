@@ -50,12 +50,11 @@ controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Press
         . . . . . . . . . . . . . . . . 
         `, player1, 0, -60)
 })
-function spawnenemy (num: number, delay: number) {
+function spawnenemy (num: number) {
     for (let index = 0; index < num; index++) {
         enemysprite = sprites.create(enemylist._pickRandom(), SpriteKind.Enemy)
         tiles.placeOnTile(enemysprite, spawnenemieslocation._pickRandom())
-        enemysprite.setVelocity(0, 20)
-        pause(delay)
+        pause(500)
     }
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -168,4 +167,4 @@ scene.cameraFollowSprite(player1)
 player1.setPosition(1, 112)
 player2.setPosition(159, 112)
 sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-spawnenemy(10, 500)
+spawnenemy(10)

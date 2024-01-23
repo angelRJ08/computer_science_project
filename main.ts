@@ -55,15 +55,22 @@ function spawnenemy (num: number) {
         enemysprite = sprites.create(enemylist._pickRandom(), SpriteKind.Enemy)
         tiles.placeOnTile(enemysprite, spawnenemieslocation._pickRandom())
         enemysprite.setVelocity(0, 20)
-        pause(500)
+        score += 1
+        if (score >= 10) {
+            pause(1)
+        } else {
+            pause(500)
+        }
     }
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    score = 0
 })
 controller.player1.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pressed, function () {
     player1.setVelocity(-100, 0)
 })
+let score = 0
 let enemysprite: Sprite = null
 let projectile: Sprite = null
 let player2: Sprite = null
@@ -168,4 +175,4 @@ scene.cameraFollowSprite(player1)
 player1.setPosition(1, 112)
 player2.setPosition(159, 112)
 sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-spawnenemy(10)
+spawnenemy(1000)

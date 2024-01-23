@@ -1,9 +1,6 @@
 controller.player1.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.Pressed, function () {
     mySprite.setVelocity(100, 0)
 })
-function spawnenemyplayer () {
-	
-}
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(mySprite)
 })
@@ -34,7 +31,6 @@ mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
 scene.cameraFollowSprite(mySprite)
-spawnenemyplayer()
 info.setLife(3)
 tiles.setCurrentTilemap(tilemap`level2`)
 let list = [sprites.create(img`
@@ -126,4 +122,3 @@ let mySprite2 = sprites.create(img`
     . . . . f f . . . . . . f f . . 
     `, SpriteKind.Player)
 scene.cameraFollowSprite(mySprite)
-spawnenemyplayer()

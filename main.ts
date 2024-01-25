@@ -93,7 +93,6 @@ let enemylist: Image[] = []
 let dontshoot = 0
 let spawnenemieslocation: tiles.Location[] = []
 let player1: Sprite = null
-let mySprite: Sprite = null
 tiles.setCurrentTilemap(tilemap`level2`)
 scene.cameraFollowSprite(player1)
 spawnenemieslocation = tiles.getTilesByType(assets.tile`myTile0`)

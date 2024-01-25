@@ -57,7 +57,7 @@ function spawnenemy (num: number) {
         enemysprite.setVelocity(0, 20)
         score += 1
         if (score >= 10) {
-            pause(1)
+            pause(500)
         } else {
             pause(500)
         }

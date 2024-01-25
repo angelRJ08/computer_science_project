@@ -2,24 +2,28 @@ namespace SpriteKind {
     export const enemy1 = SpriteKind.create()
 }
 controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
-    projectile = sprites.createProjectileFromSprite(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . 2 2 . . . . . . . 2 2 . . . 
-        . . . 2 2 . . . . . 2 . 2 . . . 
-        . . . . 2 2 . . . 2 . . 2 . . . 
-        . . . . 2 2 2 . . 2 2 2 2 . . . 
-        . . . . 2 2 . 2 2 2 2 . . . . . 
-        . . . . . 2 2 . 2 . 2 . . . . . 
-        . . . . . . . . 2 . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, player2, 0, -60)
+    if (dontshoot != 1) {
+    	
+    } else {
+        projectile = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . 2 2 . . . . . . . 2 2 . . . 
+            . . . 2 2 . . . . . 2 . 2 . . . 
+            . . . . 2 2 . . . 2 . . 2 . . . 
+            . . . . 2 2 2 . . 2 2 2 2 . . . 
+            . . . . 2 2 . 2 2 2 2 . . . . . 
+            . . . . . 2 2 . 2 . 2 . . . . . 
+            . . . . . . . . 2 . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, player2, 0, -60)
+    }
 })
 controller.player2.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.Pressed, function () {
     player2.setVelocity(100, 0)
@@ -186,7 +190,9 @@ player2 = sprites.create(img`
     . . . . f f . . . . . . f f . . 
     `, SpriteKind.Player)
 scene.cameraFollowSprite(player1)
-player1.setPosition(1, 112)
-player2.setPosition(159, 112)
+player1.setPosition(8, 120)
+player2.setPosition(152, 120)
 sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
 spawnenemy(1000)
+player1.setStayInScreen(true)
+player2.setStayInScreen(true)

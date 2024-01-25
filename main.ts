@@ -31,24 +31,28 @@ controller.player1.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.P
     player1.setVelocity(100, 0)
 })
 controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
-    projectile = sprites.createProjectileFromSprite(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . 3 3 . . . . . . . 
-        . . . . . . 3 3 3 . . . . . . . 
-        . . . . . . 3 3 3 3 . . . . . . 
-        . . . . . . 3 3 3 . 3 . . . . . 
-        . . . . . . 3 3 3 3 3 . . . . . 
-        . . . . . . . 3 . . . . . . . . 
-        . . . . . . . 3 . . . . . . . . 
-        . . . . . . . 3 . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, player1, 0, -60)
+    if (dontshoot != 1) {
+    	
+    } else {
+        projectile = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . 3 3 . . . . . . . 
+            . . . . . . 3 3 3 . . . . . . . 
+            . . . . . . 3 3 3 3 . . . . . . 
+            . . . . . . 3 3 3 . 3 . . . . . 
+            . . . . . . 3 3 3 3 3 . . . . . 
+            . . . . . . . 3 . . . . . . . . 
+            . . . . . . . 3 . . . . . . . . 
+            . . . . . . . 3 . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, player1, 0, -60)
+    }
 })
 function spawnenemy (num: number) {
     for (let index = 0; index < num; index++) {
@@ -61,28 +65,39 @@ function spawnenemy (num: number) {
         } else {
             pause(500)
         }
+        if (dontshoot != 1) {
+            break;
+        }
     }
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-    score = 0
+    sprites.destroy(otherSprite)
+    sprites.destroy(sprite)
 })
 controller.player1.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pressed, function () {
     player1.setVelocity(-100, 0)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(sprite, effects.fire, 100)
+    dontshoot += 1
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    game.splash("Game Over")
+    enemysprite.setStayInScreen(false)
 })
 let score = 0
 let enemysprite: Sprite = null
 let projectile: Sprite = null
 let player2: Sprite = null
 let enemylist: Image[] = []
+let dontshoot = 0
 let spawnenemieslocation: tiles.Location[] = []
 let player1: Sprite = null
 let mySprite: Sprite = null
-info.setLife(3)
 tiles.setCurrentTilemap(tilemap`level2`)
 scene.cameraFollowSprite(player1)
 spawnenemieslocation = tiles.getTilesByType(assets.tile`myTile0`)
-info.setLife(3)
+dontshoot = 1
 enemylist = [img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 

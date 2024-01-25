@@ -2,7 +2,7 @@ namespace SpriteKind {
     export const enemy1 = SpriteKind.create()
 }
 controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
-    if (dontshoot != 1) {
+    if (playerdead != 1) {
     	
     } else {
         projectile = sprites.createProjectileFromSprite(img`
@@ -25,6 +25,14 @@ controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Press
             `, player2, 0, -60)
     }
 })
+scene.onOverlapTile(SpriteKind.Enemy, sprites.builtin.forestTiles0, function (sprite, location) {
+    sprites.destroy(sprite, effects.fire, 100)
+    playerdead += 1
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    game.splash("Game Over")
+    enemysprite.setStayInScreen(false)
+})
 controller.player2.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.Pressed, function () {
     player2.setVelocity(100, 0)
 })
@@ -35,7 +43,7 @@ controller.player1.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.P
     player1.setVelocity(100, 0)
 })
 controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
-    if (dontshoot != 1) {
+    if (playerdead != 1) {
     	
     } else {
         projectile = sprites.createProjectileFromSprite(img`
@@ -69,7 +77,7 @@ function spawnenemy (num: number) {
         } else {
             pause(500)
         }
-        if (dontshoot != 1) {
+        if (playerdead != 1) {
             break;
         }
     }
@@ -77,30 +85,37 @@ function spawnenemy (num: number) {
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
     sprites.destroy(sprite)
+    info.changeScoreBy(-1)
+    currentnumofenemies = info.score()
+    if (currentnumofenemies == 0) {
+        game.splash("Y'all Won. You killed " + numenemies + " enemies")
+    }
 })
 controller.player1.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pressed, function () {
     player1.setVelocity(-100, 0)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(sprite, effects.fire, 100)
-    dontshoot += 1
+    playerdead += 1
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     game.splash("Game Over")
     enemysprite.setStayInScreen(false)
 })
+let currentnumofenemies = 0
 let score = 0
 let enemysprite: Sprite = null
 let projectile: Sprite = null
+let numenemies = 0
 let player2: Sprite = null
 let enemylist: Image[] = []
-let dontshoot = 0
+let playerdead = 0
 let spawnenemieslocation: tiles.Location[] = []
 let player1: Sprite = null
 tiles.setCurrentTilemap(tilemap`level2`)
 scene.cameraFollowSprite(player1)
 spawnenemieslocation = tiles.getTilesByType(assets.tile`myTile0`)
-dontshoot = 1
+playerdead = 1
 enemylist = [img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
@@ -193,6 +208,8 @@ scene.cameraFollowSprite(player1)
 player1.setPosition(8, 120)
 player2.setPosition(152, 120)
 sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-spawnenemy(1000)
+numenemies = game.askForNumber("How much enemies do you want to spawn?")
+info.setScore(numenemies)
+spawnenemy(numenemies)
 player1.setStayInScreen(true)
 player2.setStayInScreen(true)

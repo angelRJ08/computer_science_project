@@ -10,13 +10,13 @@ controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Press
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            . . 2 2 . . . . . . . 2 2 . . . 
-            . . . 2 2 . . . . . 2 . 2 . . . 
-            . . . . 2 2 . . . 2 . . 2 . . . 
-            . . . . 2 2 2 . . 2 2 2 2 . . . 
-            . . . . 2 2 . 2 2 2 2 . . . . . 
-            . . . . . 2 2 . 2 . 2 . . . . . 
-            . . . . . . . . 2 . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . 2 2 . . . . . . . 
+            . . . . . . 3 1 1 3 . . . . . . 
+            . . . . . 2 1 1 1 1 2 . . . . . 
+            . . . . . 2 1 1 1 1 2 . . . . . 
+            . . . . . . 3 1 1 3 . . . . . . 
+            . . . . . . . 2 2 . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -33,8 +33,22 @@ scene.onOverlapTile(SpriteKind.Enemy, sprites.builtin.forestTiles0, function (sp
     game.splash("Game Over")
     enemysprite.setStayInScreen(false)
 })
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite2, otherSprite) {
+    sprites.destroy(otherSprite)
+    sprites.destroy(sprite2)
+    info.changeScoreBy(-1)
+    currentnumofenemies += -1
+})
 controller.player2.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.Pressed, function () {
     player2.setVelocity(100, 0)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite3, otherSprite2) {
+    sprites.destroy(sprite3, effects.fire, 100)
+    playerdead += 1
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    game.splash("Game Over")
+    enemysprite.setStayInScreen(false)
 })
 controller.player2.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pressed, function () {
     player2.setVelocity(-100, 0)
@@ -72,34 +86,18 @@ function spawnenemy (num: number, speed: number) {
         tiles.placeOnTile(enemysprite, spawnenemieslocation._pickRandom())
         enemysprite.setVelocity(0, speed)
         score += 1
-        if (score >= 10) {
-            pause(500)
-        } else {
-            pause(500)
-        }
         if (playerdead != 1) {
             break;
         }
+        pause(500)
     }
 }
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroy(otherSprite)
-    sprites.destroy(sprite)
-    info.changeScoreBy(-1)
-    currentnumofenemies += -1
-})
 controller.player1.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pressed, function () {
     player1.setVelocity(-100, 0)
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroy(sprite, effects.fire, 100)
-    playerdead += 1
-    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-    game.splash("Game Over")
-    enemysprite.setStayInScreen(false)
-})
+let level = 0
 let score = 0
+let currentnumofenemies = 0
 let enemysprite: Sprite = null
 let projectile: Sprite = null
 let player2: Sprite = null
@@ -207,14 +205,12 @@ player1.setStayInScreen(true)
 player2.setStayInScreen(true)
 let numenemy = 5
 let speedenemy = 5
-let currentnumofenemies = 0
-let level = 0
 info.setScore(numenemy)
 forever(function () {
     if (currentnumofenemies == 0) {
         info.setScore(numenemy)
         level += 1
-        game.splash("Level " + level)
+        game.splash("Level " + ("" + level))
         currentnumofenemies = numenemy
         spawnenemy(numenemy, speedenemy)
         speedenemy += 2

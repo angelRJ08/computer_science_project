@@ -66,11 +66,11 @@ controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Press
             `, player1, 0, -60)
     }
 })
-function spawnenemy (num: number) {
+function spawnenemy (num: number, speed: number) {
     for (let index = 0; index < num; index++) {
         enemysprite = sprites.create(enemylist._pickRandom(), SpriteKind.Enemy)
         tiles.placeOnTile(enemysprite, spawnenemieslocation._pickRandom())
-        enemysprite.setVelocity(0, 20)
+        enemysprite.setVelocity(0, speed)
         score += 1
         if (score >= 10) {
             pause(500)
@@ -86,10 +86,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
     sprites.destroy(otherSprite)
     sprites.destroy(sprite)
     info.changeScoreBy(-1)
-    currentnumofenemies = info.score()
-    if (currentnumofenemies == 0) {
-        game.splash("Y'all Won. You killed " + numenemies + " enemies")
-    }
+    currentnumofenemies += -1
 })
 controller.player1.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pressed, function () {
     player1.setVelocity(-100, 0)
@@ -102,11 +99,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     game.splash("Game Over")
     enemysprite.setStayInScreen(false)
 })
-let currentnumofenemies = 0
 let score = 0
 let enemysprite: Sprite = null
 let projectile: Sprite = null
-let numenemies = 0
 let player2: Sprite = null
 let enemylist: Image[] = []
 let playerdead = 0
@@ -208,8 +203,21 @@ scene.cameraFollowSprite(player1)
 player1.setPosition(8, 120)
 player2.setPosition(152, 120)
 sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-numenemies = game.askForNumber("How much enemies do you want to spawn?")
-info.setScore(numenemies)
-spawnenemy(numenemies)
 player1.setStayInScreen(true)
 player2.setStayInScreen(true)
+let numenemy = 5
+let speedenemy = 5
+let currentnumofenemies = 0
+let level = 0
+info.setScore(numenemy)
+forever(function () {
+    if (currentnumofenemies == 0) {
+        info.setScore(numenemy)
+        level += 1
+        game.splash("Level " + level)
+        currentnumofenemies = numenemy
+        spawnenemy(numenemy, speedenemy)
+        speedenemy += 2
+        numenemy += 2
+    }
+})
